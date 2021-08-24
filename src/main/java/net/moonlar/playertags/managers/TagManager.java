@@ -3,6 +3,7 @@ package net.moonlar.playertags.managers;
 import net.milkbowl.vault.permission.Permission;
 import net.moonlar.playertags.PlayerTags;
 import net.moonlar.playertags.objects.Tag;
+import net.moonlar.playertags.utils.ChatUtils;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitTask;
@@ -36,7 +37,7 @@ public class TagManager {
       String suffix = section.getString(key + ".Suffix");
       int priority = section.getInt(key + ".Priority");
 
-      Tag tag = new Tag(key, prefix, suffix, priority);
+      Tag tag = new Tag(key, prefix, suffix, Math.abs(priority));
       tags.put(key, tag);
     }
 
@@ -61,10 +62,7 @@ public class TagManager {
     teamNameBuilder.append(tag.getId());
 
     String teamName = teamNameBuilder.toString();
-
-    if(teamName.length() > 16) {
-      teamName = teamName.substring(0, 16);
-    }
+    teamName = ChatUtils.clampString(teamName, 16);
 
     Scoreboard scoreboard = player.getScoreboard();
     Team team = scoreboard.getTeam(teamName);
@@ -81,18 +79,12 @@ public class TagManager {
     String suffix = tag.getSuffix();
 
     if(prefix != null) {
-      if(prefix.length() > 16) {
-        prefix = prefix.substring(0, 16);
-      }
-
+      prefix = ChatUtils.clampString(prefix, 16);
       team.setPrefix(prefix);
     }
 
     if(suffix != null) {
-      if(suffix.length() > 16) {
-        suffix = suffix.substring(0, 16);
-      }
-
+      suffix = ChatUtils.clampString(suffix, 16);
       team.setSuffix(suffix);
     }
   }
