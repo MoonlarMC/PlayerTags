@@ -17,4 +17,15 @@ public final class TeamUtils {
 
     return team;
   }
+
+  public static void removePlayerFromTeam(Player player, String teamName) {
+    Scoreboard scoreboard = player.getScoreboard();
+    Team team = scoreboard.getTeam(teamName);
+
+    if(team == null) return;
+
+    if(team.hasEntry(player.getName())) {
+      team.removeEntry(player.getName());
+    }
+  }
 }

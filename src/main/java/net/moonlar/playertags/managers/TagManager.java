@@ -80,7 +80,14 @@ public class TagManager {
   }
 
   public void clear(Player player) {
+    Permission permission = plugin.getVaultPermission();
 
+    for(Tag tag : tags.values()) {
+      if(!permission.playerInGroup(player, tag.getId())) {
+        String teamName = tagToTeamName(tag);
+        TeamUtils.removePlayerFromTeam(player, teamName);
+      }
+    }
   }
 
   public Tag getTag(String tagName) {
