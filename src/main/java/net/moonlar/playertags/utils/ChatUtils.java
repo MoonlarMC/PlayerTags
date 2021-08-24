@@ -17,7 +17,7 @@ public final class ChatUtils {
     return message;
   }
 
-  public static String clampAndColorize(String message, int maxLength) {
+  public static String clampAndTranslateColors(String message, int maxLength) {
     message = clampString(message, maxLength);
     message = colorize(message);
 

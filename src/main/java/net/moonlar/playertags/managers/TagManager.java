@@ -4,10 +4,11 @@ import net.milkbowl.vault.permission.Permission;
 import net.moonlar.playertags.PlayerTags;
 import net.moonlar.playertags.objects.Tag;
 import net.moonlar.playertags.utils.ChatUtils;
+import net.moonlar.playertags.utils.TeamUtils;
+import org.apache.commons.lang.Validate;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitTask;
-import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 
 import java.util.HashMap;
@@ -53,23 +54,8 @@ public class TagManager {
 
     if(tag == null) return;
 
-    StringBuilder teamNameBuilder = new StringBuilder();
-
-    if(tag.getPriority() < 10) teamNameBuilder.append("0");
-
-    teamNameBuilder.append(tag.getPriority());
-    teamNameBuilder.append("_");
-    teamNameBuilder.append(tag.getId());
-
-    String teamName = teamNameBuilder.toString();
-    teamName = ChatUtils.clampString(teamName, 16);
-
-    Scoreboard scoreboard = player.getScoreboard();
-    Team team = scoreboard.getTeam(teamName);
-
-    if(team == null) {
-      team = scoreboard.registerNewTeam(teamName);
-    }
+    String teamName = TagManager.tagToTeamName(tag);
+    Team team = TeamUtils.getTeam(player, teamName);
 
     if(!team.hasEntry(player.getName())) {
       team.addEntry(player.getName());
@@ -79,12 +65,12 @@ public class TagManager {
     String suffix = tag.getSuffix();
 
     if(prefix != null) {
-      prefix = ChatUtils.clampAndColorize(prefix, 16);
+      prefix = ChatUtils.clampAndTranslateColors(prefix, 16);
       team.setPrefix(prefix);
     }
 
     if(suffix != null) {
-      suffix = ChatUtils.clampAndColorize(suffix, 16);
+      suffix = ChatUtils.clampAndTranslateColors(suffix, 16);
       team.setSuffix(suffix);
     }
   }
@@ -121,5 +107,22 @@ public class TagManager {
     }
 
     return tag;
+  }
+
+  public static String tagToTeamName(Tag tag) {
+    Validate.notNull(tag, "Tag is null");
+
+    StringBuilder teamNameBuilder = new StringBuilder();
+
+    if(tag.getPriority() < 10) teamNameBuilder.append("0");
+
+    teamNameBuilder.append(tag.getPriority());
+    teamNameBuilder.append("_");
+    teamNameBuilder.append(tag.getId());
+
+    String teamName = teamNameBuilder.toString();
+    teamName = ChatUtils.clampString(teamName, 16);
+
+    return teamName;
   }
 }
