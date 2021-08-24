@@ -1,12 +1,13 @@
 package net.moonlar.playertags.managers;
 
+import net.milkbowl.vault.permission.Permission;
 import net.moonlar.playertags.PlayerTags;
 import net.moonlar.playertags.objects.Tag;
-import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitTask;
+import org.bukkit.scoreboard.Scoreboard;
+import org.bukkit.scoreboard.Team;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -35,7 +36,7 @@ public class TagManager {
       String suffix = section.getString(key + ".Suffix");
       int priority = section.getInt(key + ".Priority");
 
-      Tag tag = new Tag(prefix, suffix, priority);
+      Tag tag = new Tag(key, prefix, suffix, priority);
       tags.put(key, tag);
     }
 
@@ -47,7 +48,53 @@ public class TagManager {
   }
 
   public void update(Player player) {
+    Tag tag = getPrimaryTag(player);
 
+    if(tag == null) return;
+
+    StringBuilder teamNameBuilder = new StringBuilder();
+
+    if(tag.getPriority() < 10) teamNameBuilder.append("0");
+
+    teamNameBuilder.append(tag.getPriority());
+    teamNameBuilder.append("_");
+    teamNameBuilder.append(tag.getId());
+
+    String teamName = teamNameBuilder.toString();
+
+    if(teamName.length() > 16) {
+      teamName = teamName.substring(0, 16);
+    }
+
+    Scoreboard scoreboard = player.getScoreboard();
+    Team team = scoreboard.getTeam(teamName);
+
+    if(team == null) {
+      team = scoreboard.registerNewTeam(teamName);
+    }
+
+    if(!team.hasEntry(player.getName())) {
+      team.addEntry(player.getName());
+    }
+
+    String prefix = tag.getPrefix();
+    String suffix = tag.getSuffix();
+
+    if(prefix != null) {
+      if(prefix.length() > 16) {
+        prefix = prefix.substring(0, 16);
+      }
+
+      team.setPrefix(prefix);
+    }
+
+    if(suffix != null) {
+      if(suffix.length() > 16) {
+        suffix = suffix.substring(0, 16);
+      }
+
+      team.setSuffix(suffix);
+    }
   }
 
   public void clearAll() {
@@ -60,5 +107,27 @@ public class TagManager {
 
   public Tag getTag(String tagName) {
     return tags.get(tagName);
+  }
+
+  public Tag getPrimaryTag(Player player) {
+    Permission permission = plugin.getVaultPermission();
+    Tag tag = null;
+
+    for(String group : tags.keySet()) {
+      if(permission.playerInGroup(player, group)) {
+        Tag had = tags.get(group);
+
+        if(tag == null) {
+          tag = had;
+          continue;
+        }
+
+        if(had.getPriority() > tag.getPriority()) {
+          tag = had;
+        }
+      }
+    }
+
+    return tag;
   }
 }

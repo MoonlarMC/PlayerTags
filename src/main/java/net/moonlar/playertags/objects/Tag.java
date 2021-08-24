@@ -1,12 +1,15 @@
 package net.moonlar.playertags.objects;
 
 public class Tag {
+  private final String id;
+
   private String prefix;
   private String suffix;
 
   private int priority;
 
-  public Tag(String prefix, String suffix, int priority) {
+  public Tag(String id, String prefix, String suffix, int priority) {
+    this.id = id;
     this.prefix = prefix;
     this.suffix = suffix;
     this.priority = priority;
@@ -34,5 +37,9 @@ public class Tag {
 
   public void setPriority(int priority) {
     this.priority = priority;
+  }
+
+  public String getId() {
+    return id;
   }
 }
