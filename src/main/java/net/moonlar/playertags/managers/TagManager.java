@@ -50,6 +50,8 @@ public class TagManager {
   }
 
   public void update(Player player) {
+    clear(player);
+
     Tag tag = getPrimaryTag(player);
 
     if(tag == null) return;
