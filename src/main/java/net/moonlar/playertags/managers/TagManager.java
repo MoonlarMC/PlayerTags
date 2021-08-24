@@ -79,12 +79,12 @@ public class TagManager {
     String suffix = tag.getSuffix();
 
     if(prefix != null) {
-      prefix = ChatUtils.clampString(prefix, 16);
+      prefix = ChatUtils.clampAndColorize(prefix, 16);
       team.setPrefix(prefix);
     }
 
     if(suffix != null) {
-      suffix = ChatUtils.clampString(suffix, 16);
+      suffix = ChatUtils.clampAndColorize(suffix, 16);
       team.setSuffix(suffix);
     }
   }
