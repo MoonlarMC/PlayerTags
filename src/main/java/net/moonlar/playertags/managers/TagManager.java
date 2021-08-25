@@ -57,7 +57,7 @@ public class TagManager {
     if(tag == null) return;
 
     String teamName = TagManager.tagToTeamName(tag);
-    Team team = TeamUtils.getTeam(player, teamName);
+    Team team = TeamUtils.getNewTeam(player, teamName);
 
     if(!team.hasEntry(player.getName())) {
       team.addEntry(player.getName());
