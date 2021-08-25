@@ -19,10 +19,7 @@ public final class TeamUtils {
   }
 
   public static void removePlayerFromTeam(Player player, String teamName) {
-    Scoreboard scoreboard = player.getScoreboard();
-    Team team = scoreboard.getTeam(teamName);
-
-    if(team == null) return;
+    Team team = TeamUtils.getTeam(player, teamName);
 
     if(team.hasEntry(player.getName())) {
       team.removeEntry(player.getName());

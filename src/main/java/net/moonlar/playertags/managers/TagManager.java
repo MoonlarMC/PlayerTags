@@ -86,7 +86,7 @@ public class TagManager {
 
     for(Tag tag : tags.values()) {
       if(!permission.playerInGroup(player, tag.getId())) {
-        String teamName = tagToTeamName(tag);
+        String teamName = TagManager.tagToTeamName(tag);
         TeamUtils.removePlayerFromTeam(player, teamName);
       }
     }
@@ -102,7 +102,7 @@ public class TagManager {
 
     for(String group : tags.keySet()) {
       if(permission.playerInGroup(player, group)) {
-        Tag had = tags.get(group);
+        Tag had = getTag(group);
 
         if(tag == null) {
           tag = had;

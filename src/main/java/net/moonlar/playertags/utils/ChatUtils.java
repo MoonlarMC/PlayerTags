@@ -5,7 +5,7 @@ import org.bukkit.ChatColor;
 public final class ChatUtils {
   private ChatUtils() { }
 
-  public static String colorize(String message) {
+  public static String translateColors(String message) {
     return ChatColor.translateAlternateColorCodes('&', message);
   }
 
@@ -19,7 +19,7 @@ public final class ChatUtils {
 
   public static String clampAndTranslateColors(String message, int maxLength) {
     message = clampString(message, maxLength);
-    message = colorize(message);
+    message = translateColors(message);
 
     return message;
   }
