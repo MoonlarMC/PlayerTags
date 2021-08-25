@@ -1,6 +1,7 @@
 package net.moonlar.playertags;
 
 import net.milkbowl.vault.permission.Permission;
+import net.moonlar.playertags.listeners.PlayerListener;
 import net.moonlar.playertags.managers.TagManager;
 import net.moonlar.playertags.utils.Scheduler;
 import org.bukkit.plugin.Plugin;
@@ -27,6 +28,8 @@ public final class PlayerTags extends JavaPlugin {
     scheduler = new Scheduler(this);
     tagManager = new TagManager(this);
     tagManager.reload();
+
+    getServer().getPluginManager().registerEvents(new PlayerListener(tagManager), this);
   }
 
   @Override
