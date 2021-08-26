@@ -6,3 +6,7 @@ softdepend: [ Vault, PlaceholderAPI ]
 authors: [ GiverPlay ]
 description: A simple tags plugin
 website: https://moonlar.net
+commands:
+  playertags:
+    description: 'Main plugin command'
+    aliases: [pt, ptags, tags]
