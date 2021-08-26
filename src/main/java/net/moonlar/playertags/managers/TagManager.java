@@ -7,6 +7,7 @@ import net.moonlar.playertags.utils.ChatUtils;
 import net.moonlar.playertags.utils.TeamUtils;
 import org.apache.commons.lang.Validate;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.scoreboard.Team;
@@ -31,7 +32,8 @@ public class TagManager {
 
     tags.clear();
 
-    ConfigurationSection section = plugin.getConfig().getConfigurationSection("Tags");
+    FileConfiguration config = plugin.getConfig();
+    ConfigurationSection section = config.getConfigurationSection("Tags");
 
     for(String key : section.getKeys(false)) {
       String prefix = section.getString(key + ".Prefix");
@@ -42,7 +44,8 @@ public class TagManager {
       tags.put(key, tag);
     }
 
-    task = plugin.getScheduler().repeat(this::updateAll, 100);
+    int interval = config.getInt("UpdateInterval", 100);
+    task = plugin.getScheduler().repeat(this::updateAll, Math.abs(interval));
   }
 
   public void updateAll() {
