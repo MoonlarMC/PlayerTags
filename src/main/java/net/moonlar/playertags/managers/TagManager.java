@@ -56,6 +56,34 @@ public class TagManager {
 
     if(tag == null) return;
 
+    String teamName = tagToTeamName(tag);
+
+    if(!TeamUtils.isPlayerInTeam(player, teamName)) {
+      applyTag(player, tag);
+    }
+  }
+
+  public void clear(Player player) {
+    Permission permission = plugin.getVaultPermission();
+
+    for(Tag tag : tags.values()) {
+      if(!permission.playerInGroup(player, tag.getId())) {
+        String teamName = TagManager.tagToTeamName(tag);
+        TeamUtils.removePlayerFromTeam(player, teamName);
+      }
+    }
+  }
+
+  public void reset(Player player) {
+    Tag tag = getPrimaryTag(player);
+
+    if(tag != null) {
+      String teamName = tagToTeamName(tag);
+      TeamUtils.removePlayerFromTeam(player, teamName);
+    }
+  }
+
+  private void applyTag(Player player, Tag tag) {
     String teamName = TagManager.tagToTeamName(tag);
     Team team = TeamUtils.getNewTeam(player, teamName);
 
@@ -74,21 +102,6 @@ public class TagManager {
     if(suffix != null) {
       suffix = ChatUtils.clampAndTranslateColors(suffix, 16);
       team.setSuffix(suffix);
-    }
-  }
-
-  public void clearAll() {
-    plugin.getServer().getOnlinePlayers().forEach(this::clear);
-  }
-
-  public void clear(Player player) {
-    Permission permission = plugin.getVaultPermission();
-
-    for(Tag tag : tags.values()) {
-      if(!permission.playerInGroup(player, tag.getId())) {
-        String teamName = TagManager.tagToTeamName(tag);
-        TeamUtils.removePlayerFromTeam(player, teamName);
-      }
     }
   }
 
