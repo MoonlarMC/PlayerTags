@@ -1,0 +1,32 @@
+name: Build
+
+on:
+  push:
+    branches: [ main ]
+    
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Setup JDK
+      uses: actions/setup-java@v1.4.3
+      with:
+        java-version: 16
+
+    - name: Grant execute permission
+      run: "chmod +x ./gradlew"
+
+    - name: Build with Gradle
+      run: "./gradlew build"
+    
+    - name: Copy compiled jars into output folder
+      run: mkdir output && cp build/libs/*.jar output
+    
+    - name: Upload compiled jars
+      uses: actions/upload-artifact@v2
+      with:
+        name: Compiled Jars
+        path: output
