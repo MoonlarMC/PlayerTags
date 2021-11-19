@@ -1,5 +1,6 @@
 package net.moonlar.playertags;
 
+import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.permission.Permission;
 import net.moonlar.playertags.commands.PlayerTagsCommand;
 import net.moonlar.playertags.listeners.PlayerListener;
@@ -14,6 +15,7 @@ public final class PlayerTags extends JavaPlugin {
   private TagManager tagManager;
   private Scheduler scheduler;
   private Permission permission;
+  private Chat chat;
 
   @Override
   public void onEnable() {
@@ -54,16 +56,27 @@ public final class PlayerTags extends JavaPlugin {
       return false;
     }
 
-    RegisteredServiceProvider<Permission> provider =
-      getServer().getServicesManager().getRegistration(Permission.class);
+    permission = getServiceProvider(Permission.class);
 
-    if(provider == null) {
+    if(permission == null) {
       getLogger().severe("No Vault Permission provider registered.");
       return false;
     }
 
-    permission = provider.getProvider();
-    return permission != null;
+    chat = getServiceProvider(Chat.class);
+
+    if(chat == null) {
+      getLogger().severe("No Vault Chat provider registered.");
+      return false;
+    }
+
+    return true;
+  }
+
+  private <T> T getServiceProvider(Class<T> service) {
+    RegisteredServiceProvider<T> serviceProvider = getServer().getServicesManager().getRegistration(service);
+
+    return serviceProvider == null ? null : serviceProvider.getProvider();
   }
 
   public TagManager getTagManager() {
@@ -76,5 +89,9 @@ public final class PlayerTags extends JavaPlugin {
 
   public Permission getVaultPermission() {
     return permission;
+  }
+
+  public Chat getVaultChat() {
+    return chat;
   }
 }
