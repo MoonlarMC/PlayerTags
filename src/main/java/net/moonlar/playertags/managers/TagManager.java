@@ -68,6 +68,13 @@ public class TagManager {
     }
   }
 
+  public void resetAll() {
+    for(Player player : plugin.getServer().getOnlinePlayers()) {
+      reset(player);
+      clear(player);
+    }
+  }
+
   public void clear(Player player) {
     Permission permission = plugin.getVaultPermission();
 

@@ -38,6 +38,7 @@ public final class PlayerTags extends JavaPlugin {
 
   @Override
   public void onDisable() {
+    tagManager.resetAll();
     tagManager = null;
     scheduler = null;
     permission = null;
@@ -45,6 +46,7 @@ public final class PlayerTags extends JavaPlugin {
 
   public void reload() {
     reloadConfig();
+    tagManager.resetAll();
     tagManager.reload();
   }
 
