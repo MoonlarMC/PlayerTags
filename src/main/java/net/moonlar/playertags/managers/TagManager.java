@@ -35,15 +35,30 @@ public class TagManager {
 
     FileConfiguration config = plugin.getConfig();
     ConfigurationSection section = config.getConfigurationSection("Tags");
-    Chat chat = plugin.getVaultChat();
 
     for(String key : section.getKeys(false)) {
-      String prefix = ChatUtils.getGroupPrefix(chat, key, section.getString(key + ".Prefix"));
-      String suffix = ChatUtils.getGroupSuffix(chat, key, section.getString(key + ".Suffix"));
+      String prefix = section.getString(key + ".Prefix");
+      String suffix = section.getString(key + ".Suffix");
       int priority = section.getInt(key + ".Priority");
 
       Tag tag = new Tag(key, prefix, suffix, Math.abs(priority));
       tags.put(key, tag);
+    }
+
+    Chat chat = plugin.getVaultChat();
+    Permission permission = plugin.getVaultPermission();
+
+    for(String group : permission.getGroups()) {
+      Tag tag = getTag(group);
+
+      if(tag != null) continue;
+
+      String prefix = chat.getGroupPrefix((String) null, group);
+      String suffix = chat.getGroupSuffix((String) null, group);
+
+      if(prefix == null && suffix == null) continue;
+
+      tags.put(group, new Tag(group, prefix, suffix, 0));
     }
 
     int interval = config.getInt("UpdateInterval", 100);
