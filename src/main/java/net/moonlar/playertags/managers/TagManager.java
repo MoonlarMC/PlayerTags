@@ -1,5 +1,6 @@
 package net.moonlar.playertags.managers;
 
+import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.permission.Permission;
 import net.moonlar.playertags.PlayerTags;
 import net.moonlar.playertags.objects.Tag;
@@ -34,10 +35,11 @@ public class TagManager {
 
     FileConfiguration config = plugin.getConfig();
     ConfigurationSection section = config.getConfigurationSection("Tags");
+    Chat chat = plugin.getVaultChat();
 
     for(String key : section.getKeys(false)) {
-      String prefix = section.getString(key + ".Prefix");
-      String suffix = section.getString(key + ".Suffix");
+      String prefix = ChatUtils.getGroupPrefix(chat, key, section.getString(key + ".Prefix"));
+      String suffix = ChatUtils.getGroupSuffix(chat, key, section.getString(key + ".Suffix"));
       int priority = section.getInt(key + ".Priority");
 
       Tag tag = new Tag(key, prefix, suffix, Math.abs(priority));

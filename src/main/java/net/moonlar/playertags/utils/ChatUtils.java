@@ -1,5 +1,6 @@
 package net.moonlar.playertags.utils;
 
+import net.milkbowl.vault.chat.Chat;
 import org.bukkit.ChatColor;
 
 public final class ChatUtils {
@@ -22,5 +23,17 @@ public final class ChatUtils {
     message = translateColors(message);
 
     return message;
+  }
+
+  public static String getGroupPrefix(Chat chat, String group, String priority) {
+    if(priority != null) return priority;
+
+    return chat.getGroupPrefix((String) null, group);
+  }
+
+  public static String getGroupSuffix(Chat chat, String group, String priority) {
+    if(priority != null) return priority;
+
+    return chat.getGroupSuffix((String) null, group);
   }
 }
