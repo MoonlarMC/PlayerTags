@@ -140,18 +140,18 @@ public class TagManager {
     Permission permission = plugin.getVaultPermission();
     Tag tag = null;
 
-    for(String group : tags.keySet()) {
-      if(permission.playerInGroup(player, group)) {
-        Tag had = getTag(group);
+    for(String group : permission.getPlayerGroups(player)) {
+      Tag had = getTag(group);
 
-        if(tag == null) {
-          tag = had;
-          continue;
-        }
+      if(had == null) continue;
 
-        if(had.getPriority() > tag.getPriority()) {
-          tag = had;
-        }
+      if(tag == null) {
+        tag = had;
+        continue;
+      }
+
+      if(had.getPriority() > tag.getPriority()) {
+        tag = had;
       }
     }
 
