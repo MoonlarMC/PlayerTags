@@ -1,14 +1,16 @@
 UpdateInterval: 100
 Tags:
-  Member:
-    Prefix: '&7'
-    Suffix: '&f:)'
-    Priority: 0
-  Vip:
-    Prefix: '&b'
-    Suffix: '&c<3'
-    Priority: 1
-  Mod:
-    Prefix: '&a[Mod]'
-    Suffix: '&4<3'
-    Priority: 2
+  Groups:
+    Member:
+      Prefix: '&7'
+      Suffix: '&f:)'
+      Priority: 0
+    Mod:
+      Prefix: '&a[Mod]'
+      Suffix: '&4<3'
+      Priority: 2
+  Players:
+    Giverzin:
+      Prefix: '&a '
+      Suffix: '&c []'
+      Priority: 5
