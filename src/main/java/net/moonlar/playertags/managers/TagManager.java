@@ -13,6 +13,7 @@ import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 public class TagManager {
@@ -79,13 +80,14 @@ public class TagManager {
   }
 
   public Tag getPrimaryTag(Player player) {
-    Tag tag = playerTags.get(player.getName());
+    String playerName = player.getName().toLowerCase();
+    Tag tag = playerTags.get(playerName);
 
     if(tag != null) {
       return tag;
     }
 
-    String group = plugin.getVaultPermission().getPrimaryGroup(player);
+    String group = plugin.getVaultPermission().getPrimaryGroup(player).toLowerCase();
     tag = groupTags.get(group);
 
     if(tag != null) {
@@ -98,7 +100,7 @@ public class TagManager {
 
     if(prefix != null && suffix != null) {
       tag = new Tag(prefix, suffix, 0);
-      playerTags.put(player.getName(), tag);
+      playerTags.put(playerName, tag);
 
       return tag;
     }

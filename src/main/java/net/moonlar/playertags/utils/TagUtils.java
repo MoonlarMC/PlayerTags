@@ -12,12 +12,12 @@ public final class TagUtils {
     tags.clear();
 
     for(String key : source.getKeys(false)) {
-      String prefix = source.getString(key + ".Prefix");
-      String suffix = source.getString(key + ".Suffix");
+      String prefix = ChatUtils.translateColors(source.getString(key + ".Prefix"));
+      String suffix = ChatUtils.translateColors(source.getString(key + ".Suffix"));
       int priority = source.getInt(key + ".Priority");
 
       Tag tag = new Tag(prefix, suffix, Math.abs(priority));
-      tags.put(key, tag);
+      tags.put(key.toLowerCase(), tag);
     }
   }
 }
