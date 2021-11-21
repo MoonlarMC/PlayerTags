@@ -1,5 +1,7 @@
 package net.moonlar.playertags.objects;
 
+import net.moonlar.playertags.utils.ChatUtils;
+
 public class Tag {
    private String prefix;
   private String suffix;
@@ -7,8 +9,8 @@ public class Tag {
   private int priority;
 
   public Tag(String prefix, String suffix, int priority) {
-    this.prefix = prefix != null ? prefix : "";
-    this.suffix = suffix != null ? suffix : "";
+    this.prefix = prefix != null ? ChatUtils.translateColors(prefix) : "";
+    this.suffix = suffix != null ? ChatUtils.translateColors(suffix) : "";
     this.priority = Math.abs(priority);
   }
 
