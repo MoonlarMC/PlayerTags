@@ -38,7 +38,7 @@ public class TagManager {
     TagUtils.loadTags(playerTags, config.getConfigurationSection("Tags.Players"));
     TagUtils.loadTags(groupTags, config.getConfigurationSection("Tags.Groups"));
 
-    scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
+    scoreboard = plugin.getServer().getScoreboardManager().getMainScoreboard();
 
     int interval = config.getInt("UpdateInterval", 100);
     task = plugin.getScheduler().repeat(this::updateAll, Math.abs(interval));

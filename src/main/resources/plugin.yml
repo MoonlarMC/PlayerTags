@@ -1,7 +1,7 @@
 name: PlayerTags
 version: '${version}'
 main: net.moonlar.playertags.PlayerTags
-load: STARTUP
+load: POSTWORLD
 softdepend: [ Vault, PlaceholderAPI ]
 authors: [ GiverPlay ]
 description: A simple tags plugin

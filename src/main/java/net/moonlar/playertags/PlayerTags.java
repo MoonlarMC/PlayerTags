@@ -38,7 +38,10 @@ public final class PlayerTags extends JavaPlugin {
 
   @Override
   public void onDisable() {
-    tagManager.cleanup();
+    if(tagManager != null) {
+      tagManager.cleanup();
+    }
+
     tagManager = null;
     scheduler = null;
     permission = null;
