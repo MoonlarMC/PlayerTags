@@ -5,7 +5,6 @@ import net.moonlar.playertags.PlayerTags;
 import net.moonlar.playertags.objects.Tag;
 import net.moonlar.playertags.utils.ChatUtils;
 import net.moonlar.playertags.utils.TagUtils;
-import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitTask;
@@ -13,7 +12,6 @@ import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 
 public class TagManager {
@@ -50,6 +48,7 @@ public class TagManager {
 
   public void update(Player player) {
     Tag tag = getPrimaryTag(player);
+    player.setPlayerListName(null);
 
     if(tag != null) {
       applyTag(player, tag);
@@ -98,7 +97,7 @@ public class TagManager {
     String prefix = chat.getPlayerPrefix(player);
     String suffix = chat.getPlayerSuffix(player);
 
-    if(prefix != null && suffix != null) {
+    if(prefix != null || suffix != null) {
       tag = new Tag(prefix, suffix, 0);
       playerTags.put(playerName, tag);
 
@@ -106,7 +105,7 @@ public class TagManager {
     }
 
     prefix = chat.getGroupPrefix((String) null, group);
-    suffix = chat.getGroupPrefix((String) null, group);
+    suffix = chat.getGroupSuffix((String) null, group);
     tag = new Tag(prefix, suffix, 0);
     groupTags.put(group, tag);
 
