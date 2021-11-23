@@ -98,18 +98,12 @@ public class TagManager {
     String suffix = chat.getPlayerSuffix(player);
 
     if(prefix != null || suffix != null) {
-      tag = new Tag(prefix, suffix, 0);
-      playerTags.put(playerName, tag);
-
-      return tag;
+      return new Tag(prefix, suffix, 0);
     }
 
     prefix = chat.getGroupPrefix((String) null, group);
     suffix = chat.getGroupSuffix((String) null, group);
-    tag = new Tag(prefix, suffix, 0);
-    groupTags.put(group, tag);
-
-    return tag;
+    return new Tag(prefix, suffix, 0);
   }
 
   public void cleanup() {
